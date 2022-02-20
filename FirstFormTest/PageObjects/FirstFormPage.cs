@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using FirstFormTest.Infrastruture;
+using OpenQA.Selenium;
 using System;
 using System.Threading;
 
@@ -10,7 +11,7 @@ namespace FirstFormTest.PageObjects
         private readonly By inputFullName = By.Id("input_comp-jxd8gccb");
         private readonly By inputEmail = By.Id("input_comp-k5hb1d85");
         private readonly By btnJoinNow = By.CssSelector("#comp-jxd8gccw button"); //John Now error?
-        private readonly By succsesMessage = By.CssSelector("div #comp-k5h9ba5e");
+        private readonly By successMessage = By.CssSelector("div #comp-k5h9ba5e");
 
         public FirstFormPage(IWebDriver driver) : base(driver)
         {
@@ -19,82 +20,59 @@ namespace FirstFormTest.PageObjects
 
         public bool CheckFindFirstForm()
         {
-            try
-            {
-                driver.FindElement(firstForm);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return WaitUntil.CheckFindElement(driver, firstForm);
+        }
 
+        public bool CheckFindInputFullName()
+        {
+            return WaitUntil.CheckFindElement(driver, inputFullName);
+        }
+
+        public bool CheckFindInputEmail()
+        {
+            return WaitUntil.CheckFindElement(driver, inputEmail);
+        }
+
+        public bool CheckFindBtnConfirm()
+        {
+            return WaitUntil.CheckFindElement(driver, btnJoinNow);
+        }
+        public bool CheckFindSuccessMessageDiv()
+        {
+            return WaitUntil.CheckFindElement(driver, successMessage);
+        }
+
+
+        public bool CheckSuccessMesVisible()
+        {
+            var mesageCheck = driver.FindElement(successMessage);
+            return mesageCheck.Displayed;
         }
 
         public void InputInFullName(string fullName)
         {
-            try
-            {
-                var inputName = driver.FindElement(inputFullName);
-                inputName.SendKeys(fullName);
-                //return true;
-            }
-            catch
-            {
-                //return false;
-
-            }
-
+            var inputName = driver.FindElement(inputFullName);
+            inputName.SendKeys(fullName);           
         }
 
         public void InputInEmail(string email)
         {
-            try
-            {
-                var inputTxtEmail = driver.FindElement(inputEmail);
-                inputTxtEmail.SendKeys(email);
-                //return true;
-            }
-            catch
-            {
-                //return false;
-
-            }
-
+            var inputTxtEmail = driver.FindElement(inputEmail);
+            WaitUntil.WaitElementClick(driver, inputEmail);
+            inputTxtEmail.SendKeys(email);
         }
 
-        public void ButtonCheck()
+        public void ButtonClick()
         {
-            try
-            {
-                var btnClick = driver.FindElement(btnJoinNow);
-                btnClick.Click();
-                // return true;
-            }
-            catch
-            {
-                // return false;
-            }
-
+            var btnClick = driver.FindElement(btnJoinNow);
+            WaitUntil.WaitElementClick(driver,btnJoinNow);
+            btnClick.Click();
         }
 
         public bool GetMessageCheck()
         {
-            var mesageCheck = driver.FindElement(succsesMessage);
-            return mesageCheck.Displayed;
-            /*
-            try
-            {
-                var mesageCheck = driver.FindElement(succsesMessage);
-                
-                return mesageCheck.Text;
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-
-            }
-            */
+            var mesageCheck = driver.FindElement(successMessage);
+            return mesageCheck.Displayed;          
         }
     
     }

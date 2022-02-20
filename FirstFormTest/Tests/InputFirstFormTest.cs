@@ -1,4 +1,5 @@
-﻿using FirstFormTest.PageObjects;
+﻿using FirstFormTest.Infrastruture;
+using FirstFormTest.PageObjects;
 using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
 using System.Threading;
@@ -7,45 +8,45 @@ namespace FirstFormTest.Tests
 {
     class InputFirstFormTest : BaseTest
     {
+        private string fullName = "name";
+        private string email = "email";
+
         [SetUp]
         public override void SetUp()
         {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.AddArgument("--disable-blink-features=AutomationControlled");
             driver = new ChromeDriver(chromeOptions);
-            driver.Navigate().GoToUrl("https://tarasmysko89.wixsite.com/vectortesttask01");
+            driver.Navigate().GoToUrl(websiteURL);
         }
 
         [Test]
-        public void FindForm1()
+        public void ClickWithoutInputText()
         {
             FirstFormPage formFirst = new FirstFormPage(driver);
-            Assert.IsTrue(formFirst.CheckFindFirstForm());
-        }
-
-        [Test]
-        public void negativeInputTextInForm1()
-        {
-            FirstFormPage formFirst = new FirstFormPage (driver);
-            formFirst.InputInFullName("name");
-
-            Thread.Sleep(3000);
-            formFirst.ButtonCheck();
-            Thread.Sleep(3000);
+            formFirst.ButtonClick();
             Assert.IsFalse(formFirst.GetMessageCheck());
         }
-
+        
+        [Test]
+        public void partialInputTextForm1()
+        {
+            FirstFormPage formFirst = new FirstFormPage(driver);
+            formFirst.InputInFullName(fullName);
+            formFirst.ButtonClick();
+            Assert.IsFalse(formFirst.GetMessageCheck());
+        }
 
 
         [Test]
         public void InputTextInForm1()
         {
             FirstFormPage formFirst = new FirstFormPage(driver);
-            formFirst.InputInFullName("name");
-            formFirst.InputInEmail("email");
-            Thread.Sleep(5000);
-            formFirst.ButtonCheck();
-            Thread.Sleep(3000);
+            formFirst.InputInFullName(fullName);
+            formFirst.InputInEmail(email);
+            WaitUntil.WaitSomeInterval(3);
+            formFirst.ButtonClick();
+            WaitUntil.WaitSomeInterval(3);
             Assert.IsTrue(formFirst.GetMessageCheck());
         }
 
