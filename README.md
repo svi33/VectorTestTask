@@ -36,4 +36,4 @@ I tested only in chrome browser. I plan to use other browsers later.
 1 b)
 The following form is available to fill in at the specified Internet address:2nd form (id="comp-jxd8gc7s").
 Similar  to previous tests ("InputSecondFormTest"), the form was excellent, expectations are confirmed.
-API tests in development (not working just the moment).
+API tests second form was completed.No issues found.
